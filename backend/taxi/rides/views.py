@@ -35,7 +35,7 @@ class ListBookedRidesAPI(generics.ListAPIView):
     # http://127.0.0.1:8000/rides/list-booking?ride_status=Accepted&payment_method=Cash&rider__user__first_name=Marta
     serializer_class = RideBookingSerializer
     queryset = RideBooking.objects.all().order_by("-id")
-    # permission_classes = [ permissions.IsAuthenticated ]
+    permission_classes = [ permissions.IsAuthenticated ]
     filterset_fields = ['ride_price', 'payment_method', 'ride_status', 
     'rider__user__first_name', "rider__user__last_name", "rider__user__id",
     "driver__user__first_name", "driver__user__last_name", "driver__user__id"]

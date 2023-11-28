@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'app_settings',
     "corsheaders",
     'django_filters',
+    'drf_spectacular',
     
 ]
 
@@ -138,7 +139,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -185,3 +187,12 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Car booking web application API',
+    'DESCRIPTION': 'Online booking application api',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}

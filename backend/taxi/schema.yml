@@ -1,0 +1,1378 @@
+openapi: 3.0.3
+info:
+  title: Car booking web application API
+  version: 1.0.0
+  description: Online booking application api
+paths:
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyTokenObtainPair'
+          description: ''
+  /api/token/blacklist/:
+    post:
+      operationId: api_token_blacklist_create
+      description: |-
+        Takes a token and blacklists it. Must be used with the
+        `rest_framework_simplejwt.token_blacklist` app installed.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenBlacklist'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenBlacklist'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/token/verify/:
+    post:
+      operationId: api_token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+  /app/site/:
+    get:
+      operationId: app_site_list
+      tags:
+      - app
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppConfigSettings'
+          description: ''
+  /auth/:
+    post:
+      operationId: auth_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+  /auth/{id}/:
+    get:
+      operationId: auth_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+    put:
+      operationId: auth_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+    patch:
+      operationId: auth_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserModel'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+          description: ''
+  /drivers/car/:
+    post:
+      operationId: drivers_car_create
+      tags:
+      - drivers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverCar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DriverCar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DriverCar'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverCar'
+          description: ''
+  /drivers/car/{id}/:
+    get:
+      operationId: drivers_car_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverCar'
+          description: ''
+    put:
+      operationId: drivers_car_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverCar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DriverCar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DriverCar'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverCar'
+          description: ''
+    patch:
+      operationId: drivers_car_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDriverCar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDriverCar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDriverCar'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverCar'
+          description: ''
+    delete:
+      operationId: drivers_car_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /drivers/create/:
+    post:
+      operationId: drivers_create_create
+      tags:
+      - drivers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DriverProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DriverProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverProfile'
+          description: ''
+  /drivers/profile/{id}/:
+    get:
+      operationId: drivers_profile_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverProfile'
+          description: ''
+    put:
+      operationId: drivers_profile_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DriverProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DriverProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverProfile'
+          description: ''
+    patch:
+      operationId: drivers_profile_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - drivers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDriverProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDriverProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDriverProfile'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverProfile'
+          description: ''
+  /riders/{id}/:
+    get:
+      operationId: riders_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - riders
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiderProfile'
+          description: ''
+    put:
+      operationId: riders_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - riders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiderProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RiderProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RiderProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiderProfile'
+          description: ''
+    patch:
+      operationId: riders_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - riders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRiderProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRiderProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRiderProfile'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiderProfile'
+          description: ''
+  /riders/create/:
+    post:
+      operationId: riders_create_create
+      tags:
+      - riders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiderProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RiderProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RiderProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiderProfile'
+          description: ''
+  /riders/create-address/:
+    post:
+      operationId: riders_create_address_create
+      tags:
+      - riders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedAddresses'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavedAddresses'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavedAddresses'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedAddresses'
+          description: ''
+  /riders/saved-addresses/:
+    get:
+      operationId: riders_saved_addresses_list
+      tags:
+      - riders
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SavedAddresses'
+          description: ''
+  /riders/saved-addresses/{id}/:
+    delete:
+      operationId: riders_saved_addresses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - riders
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /rides/book/:
+    post:
+      operationId: rides_book_create
+      tags:
+      - rides
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RideBooking'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RideBooking'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RideBooking'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RideBooking'
+          description: ''
+  /rides/list-booking/:
+    get:
+      operationId: rides_list_booking_list
+      parameters:
+      - in: query
+        name: driver__user__first_name
+        schema:
+          type: string
+      - in: query
+        name: driver__user__id
+        schema:
+          type: integer
+      - in: query
+        name: driver__user__last_name
+        schema:
+          type: string
+      - in: query
+        name: payment_method
+        schema:
+          type: string
+          enum:
+          - Card
+          - Cash
+          - Wallet
+        description: |-
+          * `Card` - Card
+          * `Cash` - Cash
+          * `Wallet` - Wallet
+      - in: query
+        name: ride_price
+        schema:
+          type: number
+      - in: query
+        name: ride_status
+        schema:
+          type: string
+          enum:
+          - Accepted
+          - Canceled
+          - Completed
+          - In Progress
+          - Pending
+        description: |-
+          * `Pending` - Pending
+          * `Accepted` - Accepted
+          * `In Progress` - In Progress
+          * `Completed` - Completed
+          * `Canceled` - Canceled
+      - in: query
+        name: rider__user__first_name
+        schema:
+          type: string
+      - in: query
+        name: rider__user__id
+        schema:
+          type: integer
+      - in: query
+        name: rider__user__last_name
+        schema:
+          type: string
+      tags:
+      - rides
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RideBooking'
+          description: ''
+  /rides/retrieve-booking/{id}/:
+    get:
+      operationId: rides_retrieve_booking_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rides
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RideBooking'
+          description: ''
+    put:
+      operationId: rides_retrieve_booking_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rides
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RideBooking'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RideBooking'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RideBooking'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RideBooking'
+          description: ''
+    patch:
+      operationId: rides_retrieve_booking_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rides
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRideBooking'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRideBooking'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRideBooking'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RideBooking'
+          description: ''
+components:
+  schemas:
+    AccountStatusEnum:
+      enum:
+      - Active
+      - Pending
+      - Suspended
+      type: string
+      description: |-
+        * `Active` - Active
+        * `Pending` - Pending
+        * `Suspended` - Suspended
+    AppConfigSettings:
+      type: object
+      properties:
+        base_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_minute:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        price_km:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - base_price
+      - price_km
+      - price_minute
+    DriverCar:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        vehicle_name_model:
+          type: string
+          maxLength: 500
+        vehicle_number:
+          type: string
+          maxLength: 299
+        vehicle_color:
+          $ref: '#/components/schemas/VehicleColorEnum'
+        vehicle_registration:
+          type: string
+          format: uri
+        vehicle_insurance:
+          type: string
+          format: uri
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        edited_at:
+          type: string
+          format: date-time
+          readOnly: true
+        driver:
+          type: integer
+        vehile_comfort:
+          type: integer
+          nullable: true
+      required:
+      - created_on
+      - driver
+      - edited_at
+      - id
+      - vehicle_color
+      - vehicle_insurance
+      - vehicle_name_model
+      - vehicle_number
+      - vehicle_registration
+    DriverProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        profile_picture:
+          type: string
+          format: uri
+        user:
+          type: string
+          readOnly: true
+        license_front:
+          type: string
+          format: uri
+        driver_car:
+          allOf:
+          - $ref: '#/components/schemas/DriverCar'
+          readOnly: true
+        license_back:
+          type: string
+          format: uri
+        account_status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+      required:
+      - driver_car
+      - license_back
+      - license_front
+      - profile_picture
+      - user
+    MyTokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    Nested:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profile_picture:
+          type: string
+          format: uri
+        license_front:
+          type: string
+          format: uri
+        license_back:
+          type: string
+          format: uri
+        account_status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        edited_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+      required:
+      - created_on
+      - edited_at
+      - id
+      - license_back
+      - license_front
+      - profile_picture
+      - user
+    PatchedDriverCar:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        vehicle_name_model:
+          type: string
+          maxLength: 500
+        vehicle_number:
+          type: string
+          maxLength: 299
+        vehicle_color:
+          $ref: '#/components/schemas/VehicleColorEnum'
+        vehicle_registration:
+          type: string
+          format: uri
+        vehicle_insurance:
+          type: string
+          format: uri
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        edited_at:
+          type: string
+          format: date-time
+          readOnly: true
+        driver:
+          type: integer
+        vehile_comfort:
+          type: integer
+          nullable: true
+    PatchedDriverProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        profile_picture:
+          type: string
+          format: uri
+        user:
+          type: string
+          readOnly: true
+        license_front:
+          type: string
+          format: uri
+        driver_car:
+          allOf:
+          - $ref: '#/components/schemas/DriverCar'
+          readOnly: true
+        license_back:
+          type: string
+          format: uri
+        account_status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+    PatchedRideBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        pick_up_location:
+          type: string
+          maxLength: 600
+        drop_off_location:
+          type: string
+          maxLength: 600
+        pickup_long_lat:
+          type: string
+          maxLength: 600
+        drop_off_long_lat:
+          type: string
+          maxLength: 600
+        ride_car_type:
+          $ref: '#/components/schemas/RideCarTypeEnum'
+        rider_id:
+          type: integer
+          writeOnly: true
+        driver_id:
+          type: integer
+          writeOnly: true
+        rider:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        driver:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        ride_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        distance:
+          type: string
+          maxLength: 300
+        ride_duration:
+          type: string
+          maxLength: 30
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+        ride_status:
+          $ref: '#/components/schemas/RideStatusEnum'
+        booked_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        agent_created:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+    PatchedRiderProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          $ref: '#/components/schemas/UserModel'
+        profile_picture:
+          type: string
+          format: uri
+        account_status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        edited_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedUserModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        driver_profile:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        is_driver:
+          type: boolean
+        is_rider:
+          type: boolean
+    PaymentMethodEnum:
+      enum:
+      - Card
+      - Cash
+      - Wallet
+      type: string
+      description: |-
+        * `Card` - Card
+        * `Cash` - Cash
+        * `Wallet` - Wallet
+    RideBooking:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        pick_up_location:
+          type: string
+          maxLength: 600
+        drop_off_location:
+          type: string
+          maxLength: 600
+        pickup_long_lat:
+          type: string
+          maxLength: 600
+        drop_off_long_lat:
+          type: string
+          maxLength: 600
+        ride_car_type:
+          $ref: '#/components/schemas/RideCarTypeEnum'
+        rider_id:
+          type: integer
+          writeOnly: true
+        driver_id:
+          type: integer
+          writeOnly: true
+        rider:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        driver:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        ride_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        distance:
+          type: string
+          maxLength: 300
+        ride_duration:
+          type: string
+          maxLength: 30
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+        ride_status:
+          $ref: '#/components/schemas/RideStatusEnum'
+        booked_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        agent_created:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+      required:
+      - agent_created
+      - booked_at
+      - driver
+      - drop_off_location
+      - drop_off_long_lat
+      - id
+      - modified_at
+      - pick_up_location
+      - pickup_long_lat
+      - rider
+      - rider_id
+    RideCarTypeEnum:
+      enum:
+      - SUV
+      - Sedan
+      - Luxury
+      type: string
+      description: |-
+        * `SUV` - SUV
+        * `Sedan` - Sedan
+        * `Luxury` - Luxury
+    RideStatusEnum:
+      enum:
+      - Pending
+      - Accepted
+      - In Progress
+      - Completed
+      - Canceled
+      type: string
+      description: |-
+        * `Pending` - Pending
+        * `Accepted` - Accepted
+        * `In Progress` - In Progress
+        * `Completed` - Completed
+        * `Canceled` - Canceled
+    RiderProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          $ref: '#/components/schemas/UserModel'
+        profile_picture:
+          type: string
+          format: uri
+        account_status:
+          $ref: '#/components/schemas/AccountStatusEnum'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        edited_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_on
+      - edited_at
+      - profile_picture
+      - user
+    SavedAddresses:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        address:
+          type: string
+          maxLength: 500
+      required:
+      - address
+      - id
+    TokenBlacklist:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+      required:
+      - token
+    UserModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        driver_profile:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+        is_driver:
+          type: boolean
+        is_rider:
+          type: boolean
+      required:
+      - driver_profile
+      - email
+      - id
+      - password
+    VehicleColorEnum:
+      enum:
+      - Red
+      - Black
+      - Yellow
+      - Blue
+      type: string
+      description: |-
+        * `Red` - Red
+        * `Black` - Black
+        * `Yellow` - Yellow
+        * `Blue` - Blue
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "J"

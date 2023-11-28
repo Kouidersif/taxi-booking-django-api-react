@@ -1,4 +1,4 @@
-# Online Taxi Booking Web Application
+# Online Taxi Booking Web Application React js and Django
 
 
 # Project Purpose

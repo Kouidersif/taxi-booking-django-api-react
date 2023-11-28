@@ -2,14 +2,13 @@ import suiteCase from "../../assets/images/featurepax/suitecase.jpg";
 import clockImg from "../../assets/svgs/clock.png";
 import comfortImg from "../../assets/svgs/thumb-ups.png";
 import safetyImg from "../../assets/svgs/shield.png";
-import { Link } from "react-router-dom";
 
 
 const Passenger = () => {
     return (
         <section className="w-[90%]
-        mx-auto mt-12 flex 
-        flex-col md:gap-0 md:flex-row-reverse">
+        mx-auto mt-10 flex flex-col-reverse gap-3
+        md:gap-0 md:flex-row-reverse">
             <div className="w-full h-[300px] mr-6 md:mr-12 md:max-w-[40%] md:h-[600px]">
                 <img src={suiteCase} alt="" className="w-full h-full object-cover" />
             </div>
@@ -42,10 +41,6 @@ const Passenger = () => {
                 </ul>
                 </div>
                 
-                <div className="footer mt-10 w-full border-2">
-                <Link to="/sign-up" className="block text-center text-white cursor-pointer w-full 
-                bg-steel-blue text-sm lg:text-base py-3 px-4">Book now</Link>
-                </div>
             </div>
         </section>
     )

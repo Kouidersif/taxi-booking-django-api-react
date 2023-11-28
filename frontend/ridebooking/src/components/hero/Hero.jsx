@@ -1,10 +1,9 @@
-import BookingForm from "./BookingForm"
-
+import HeroImg from "../../assets/images/Hero/hero-app.jpg";
 
 
 const Hero = () => {
     return (
-        <section className="w-[90%] mx-auto flex flex-col md:flex-row mt-10 py-6 ">
+        <section className="w-[90%] mx-auto flex flex-col md:flex-row gap-4 mt-10 py-6 ">
             <div className="w-full text-center md:text-start md:w-[55%]">
                 <div className="typo">
                     <div className="flex flex-col items-center justify-center">
@@ -35,7 +34,7 @@ const Hero = () => {
                 </ul>
             </div>
             <div className="flex-1 min-h-full">
-                <BookingForm />
+                <img src={HeroImg} alt="" />
             </div>
 
         </section>

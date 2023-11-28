@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import driverImg from "../../assets/images/Hero/dr.jpg";
 
 const Driver = () => {
     return (
         <section className="w-[90%]
-        mx-auto mt-10 flex 
-        flex-col md:gap-0 md:flex-row">
+        mx-auto mt-10 flex flex-col-reverse gap-3
+        md:gap-0 md:flex-row">
             <div className="w-full h-[400px] mr-6 md:mr-12 md:max-w-[40%] md:h-[600px]">
                 <img src={driverImg} alt="" className="w-full h-full object-cover" />
             </div>
@@ -31,10 +30,6 @@ const Driver = () => {
                 </ul>
                 </div>
                 
-                <div className="footer mt-10 w-full">
-                <Link to="/sign-up" className="block text-center text-white cursor-pointer w-full 
-                bg-steel-blue text-sm lg:text-base py-3 px-4">Get started</Link>
-                </div>
             </div>
         </section>
     )

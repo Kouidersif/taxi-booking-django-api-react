@@ -1,6 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, useEffect, useState } from "react";
-import useAxios from "../api/useAxios";
+import { createContext, useState } from "react";
 
 
 const AppContext = createContext({})
@@ -32,18 +31,6 @@ export const ContextAppProvider = ({ children }) => {
         driver_profile_id: decodedToken?.driver_profile_id || null,
         riderProfileID: decodedToken?.rider_profile_id || null,
     })
-
-    
-
-    
-
-
-    useEffect(() => {
-        
-    }, [userToken?.access, loading])
-
-    
-
 
     return (
         <AppContext.Provider value={{

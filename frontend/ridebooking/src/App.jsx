@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import {AccountVerification, DriverInfo, 
   Home, Login, RidesPage, RiderAccountInfo,  Signup, BookRide, BookedRides} from "./routes/paths";
 import { ApiMsg, Header } from "./components/index";
-import RequireAuth, { DriverPermitted, NonAuthenticatedOrRedirect } from "./permissions/requireAuth";
+import RequireAuth, { DriverPermitted, NonAuthenticatedOrRedirect, RiderPermitted } from "./permissions/requireAuth";
 import Layout from "./permissions/Layout";
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
       </Route>
       
       {/* Riders */}
-      <Route element={<DriverPermitted />} >
+      <Route element={<RiderPermitted />} >
 
       <Route path="/rider/:id" element={<RiderAccountInfo />} />
       <Route path="/rider/book" element={<BookRide />} />

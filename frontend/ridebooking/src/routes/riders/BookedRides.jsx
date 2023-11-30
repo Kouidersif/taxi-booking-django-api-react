@@ -28,7 +28,7 @@ const BookedRides = () => {
     return (
         <div className="w-full sm:w-[90%] mx-auto sm:pt-16">
             <h1 className="text-center mb-8 sm:text-xl font-semibold hover:text-deep-purple">List of rides</h1>
-            <div className="w-full flex gap-2">
+            <div className="w-full flex gap-2 flex-wrap">
             <section className="p-3 sm:p-5 max-h-full">
                 <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
                     {/* Start coding here */}
@@ -103,9 +103,9 @@ const BookedRides = () => {
                                                 >
                                                     #{ride?.id}
                                                 </th>
-                                                <td className="px-4 py-3">{ride?.driver?.user?.first_name.substring(0, 10) || "No driver..."}</td>
-                                                <td className="px-4 py-3">{ride?.pick_up_location.substring(0, 10)}</td>
-                                                <td className="px-4 py-3">{ride?.drop_off_location.substring(0, 10)}</td>
+                                                <td className="px-4 py-3">{ride?.driver?.user?.first_name?.substring(0, 10) || "No driver..."}</td>
+                                                <td className="px-4 py-3">{ride?.pick_up_location?.substring(0, 10)}</td>
+                                                <td className="px-4 py-3">{ride?.drop_off_location?.substring(0, 10)}</td>
                                                 <td className="px-4 py-3 text-green-500 font-semibold">${ride?.ride_price}</td>
                                                 <td className="px-4 py-3">
                                                     <span className={`"bg-green-800 font-semibold text-white p-1 rounded-sm" 
@@ -154,7 +154,7 @@ const BookedRides = () => {
                 </div>
             </section>
 
-            <div className={`flex flex-1`}>
+            <div className={`flex-1 w-full`}>
 
                     <MapComp rideObj={rideObj} />
 

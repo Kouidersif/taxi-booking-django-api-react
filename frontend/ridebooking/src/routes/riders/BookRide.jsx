@@ -2,7 +2,7 @@
 import sedanSVG from "../../assets/svgs/sedan-11.svg";
 import suvSVG from "../../assets/svgs/suv.svg";
 import luxuryCar from "../../assets/svgs/luxury.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useBookRide from "./hooks/useBookRide";
 import useGetContext from "../../../context/useGetContext";
 import useAxios from "../../../api/useAxios";
@@ -14,8 +14,8 @@ import { AddressAutofill } from '@mapbox/search-js-react';
 const BookRide = () => {
     const { startRideBooking, rideDetails, loadingState, siteSettings } = useBookRide()
     
-    const [ pickUpAddress, setPickupAddress ] = useState("111 Michigan Ave NW, Washington, DC 20010");
-    const [ dropOffAddress, setDropOffAddress ] = useState("10500 Eastgate Drive, Lanham, MD 20706");
+    const [ pickUpAddress, setPickupAddress ] = useState("");
+    const [ dropOffAddress, setDropOffAddress ] = useState("");
     const { userDecodedToken, setErrorAPI, setSuccessMsgAPI } = useGetContext()
     const [ carType, setCarType ] = useState("");
     const api = useAxios()
@@ -54,22 +54,21 @@ const BookRide = () => {
         }
     }
 
-    useEffect(()=>{
-        console.log(loadingState)
-    }, [])
+    const timeoutRef = useRef(null);
 
-
-    const handleDropOffAdd = (e)=>{
-        
-        setDropOffAddress(e.target.value)
-        if (pickUpAddress && dropOffAddress){
-            setTimeout(() => {
-                startRideBooking(pickUpAddress, dropOffAddress);
-            }, 8000);
-            // console.log("hello world")
+    const handleDropOffAdd = (e) => {
+        setDropOffAddress(e.target.value);
+        if (pickUpAddress && e.target.value) {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+            // Set a new timeout to call startRideBooking after 1 second
+            timeoutRef.current = setTimeout(() => {
+                startRideBooking(pickUpAddress, e.target.value);
+            }, 1000);
         }
-        
-    }
+    };
+
 
 
     return (
@@ -90,7 +89,7 @@ const BookRide = () => {
                     <div className="form-row">
                         <label htmlFor="dropOff">Drop off Address</label>
                         <AddressAutofill accessToken={import.meta.env.VITE_MAPBOX_API_KEY}>
-                        <input type="text" value={dropOffAddress} onChange={(e)=> handleDropOffAdd(e)} 
+                        <input type="text" disabled={pickUpAddress === "" ? true : false}  value={dropOffAddress} onChange={(e)=> handleDropOffAdd(e)} 
                         id="dropOff" placeholder="drop-off address" 
                         autoComplete="street-address"
                         className="w-full py-3 rounded-sm px-1 border-2 text-md mt-3" />

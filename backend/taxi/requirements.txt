@@ -1,6 +1,8 @@
 asgiref==3.7.2
 attrs==23.1.0
-Django==4.2.6
+certifi==2023.11.17
+charset-normalizer==3.3.2
+Django==4.2.7
 django-cors-headers==4.3.0
 django-filter==23.3
 djangorestframework==3.14.0
@@ -9,6 +11,7 @@ drf-spectacular==0.26.5
 drf-writable-nested==0.7.0
 exceptiongroup==1.2.0
 Faker==20.1.0
+idna==3.6
 inflection==0.5.1
 iniconfig==2.0.0
 jsonschema==4.20.0
@@ -30,3 +33,4 @@ sqlparse==0.4.4
 tomli==2.0.1
 typing_extensions==4.8.0
 uritemplate==4.1.1
+urllib3==2.1.0

@@ -5,7 +5,7 @@ from .api.serializers import UserModelSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from taxi.tokens.custom_token import MyTokenObtainPairView, MyTokenObtainPairSerializer
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
@@ -15,7 +15,7 @@ User = get_user_model()
 
 class CreateUserAPIVIEW(generics.CreateAPIView):
     serializer_class = UserModelSerializer
-    
+    permission_classes = [ permissions.AllowAny ]
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

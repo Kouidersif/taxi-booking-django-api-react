@@ -9,6 +9,7 @@ User = get_user_model()
 
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
+
         model = User
         fields = ("id", "first_name", "last_name", "email", "password", "driver_profile", "is_driver", "is_rider" )
         extra_kwargs = { "password":{ 'write_only' : True } }
@@ -24,7 +25,6 @@ class UserModelSerializer(serializers.ModelSerializer):
         has_lowercase = re.search(r'[a-z]', value)
         has_digit = re.search(r'[0-9]', value)
         has_special_char = re.search(r'[!@#$%^&*()\-_=+{};:,<.>]', value)
-
         # Check for minimum length
         if len(value) < min_length:
             raise serializers.ValidationError("Password must be at least 8 characters long.")
@@ -41,12 +41,10 @@ class UserModelSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         email = validated_data["email"]
         user_pwd = validated_data["password"]
-        if not is_driver or not is_rider:
-            raise serializers.ValidationError([{"Error":"Account type is required"}])
 
         if User.objects.filter(email=email.lower()).exists():
             raise serializers.ValidationError([{"Error":"Email address already exists."}])
-        # You can perform additional password validation if needed
+        # Validate password before saving
         self.validate_password(user_pwd)
         user = User(
             **validated_data

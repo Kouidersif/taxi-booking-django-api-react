@@ -63,5 +63,5 @@ Go to the frontend directory.
 
 Install dependencies: npm install.
 
-Start the frontend: npm start.
+Start the frontend: npm run dev.
 
